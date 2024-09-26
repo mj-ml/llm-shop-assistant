@@ -1,7 +1,7 @@
 import os
+from datetime import datetime
+
 import psycopg2
-from psycopg2.extras import DictCursor
-from datetime import datetime, timezone
 
 
 def get_db_connection():
