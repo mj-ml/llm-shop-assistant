@@ -29,7 +29,9 @@ def main():
             start_time = time.time()
 
             context = get_context(user_question)
-            mistral_ans = generate_answer(question=context, context=context)
+            log(context)
+            mistral_ans = generate_answer(question=user_question, context=context)
+            time.sleep(1)
             mistral_eval = evaluate_answer(question=user_question, answer=mistral_ans)
 
             answer_data = {}

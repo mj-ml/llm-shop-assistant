@@ -29,15 +29,20 @@ def generate_answer(question, context):
     client = Mistral(api_key=api_key)
 
     prompt = f"""
-    Context information is below.
-    ---------------------
-    {context}
-    ---------------------
-    You are a shop assistant. Be polite with the customer. Don't give any explanation. Reply briefly.
+
+    You are a shop assistant. Reply briefly. Give a simple explanation. 
     Given the context information and not prior knowledge, answer the query. 
-    Query: {question}
+    Query: 
+   ```
+    {question}
+   ```
+    Context:     
+    ```
+    {context}
+    ```
     Answer:
     """
+    print(prompt)
 
     chat_response = client.chat.complete(
         model=model,

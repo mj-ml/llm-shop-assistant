@@ -155,7 +155,6 @@ def init_elasticsearch():
         },
     }
 
-    index_name = "faq"
     es_client.indices.delete(index=index_name, ignore_unavailable=True)
     es_client.indices.create(index=index_name, body=index_settings)
 
@@ -191,4 +190,4 @@ def upload_knowledge_base():
             print(e)
 
 if __name__ == '__main__':
-    context = query_elasticsearch("Can I return?")
+    context = query_elasticsearch("shipping price to Albania?")
