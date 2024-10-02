@@ -3,6 +3,10 @@
 
 # Project description
 
+LLM based e-shop assistant providing help about the shop policies. Ask our shop assistant any question. 
+
+## How to run it? 
+
 
 
 ## Dataset
@@ -10,6 +14,47 @@
 I adapted 
 https://www.kaggle.com/datasets/saadmakhdoom/ecommerce-faq-chatbot-dataset?resource=download
 by adding some additional questions. 
+
+
+# Technical description
+
+## Retrieval 
+An adapted FAQ is uploaded to elasticsearch in two formats:
+- raw text
+- vector using `SentenceTransformer("multi-qa-distilbert-cos-v1")`
+
+Two attempts to the evaluation are done
+- using text search
+- using semantic search. 
+
+The semantic search is superior therefore selected for the rest of the project. 
+Results below. 
+
+```
++-----+-----------------------+-------------+------------------+----------+
+|     |hit_rate_results_vector|hit_rate_text|mrr_results_vector|mrr_text  |
++-----+-----------------------+-------------+------------------+----------+
+|count|400.000000             |400.000000   |400.000000        |400.000000|
+|mean |0.940000               |0.847500     |0.832292          |0.709333  |
+|std  |0.237784               |0.359955     |0.311742          |0.393253  |
++-----+-----------------------+-------------+------------------+----------+
+
+```
+## LLM
+The chosen LLM is Mistral AI.
+https://mistral.ai/
+
+
+## User interface
+Streamlit
+
+Link here
+
+
+## Metrics
+Metrics are stored in Postgres and shown in grafana.  
+
+Link here 
 
 
 
@@ -57,3 +102,5 @@ by adding some additional questions.
     * [ ] User query rewriting (1 point)
 * Bonus points (not covered in the course)
     * [ ] Deployment to the cloud (2 points)
+    * [ ] Up to 3 extra bonus points if you want to award for something extra (write in feedback for what)
+

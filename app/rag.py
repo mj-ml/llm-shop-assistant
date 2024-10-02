@@ -1,4 +1,5 @@
 import json
+import time
 
 from mistralai import Mistral
 
@@ -90,7 +91,8 @@ def evaluate_answer(question, answer):
 
 
 if __name__ == "__main__":
-    question = "Can I return?"
+    question = "How much in shipping to France?"
     context = get_context(question)
     mistral_ans = generate_answer(question=context, context=context)
+    time.sleep(5)
     mistral_eval = evaluate_answer(question=question, answer=mistral_ans)

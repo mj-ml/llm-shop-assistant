@@ -20,24 +20,24 @@ def main():
         log(f"New conversation started with ID: {st.session_state.conversation_id}")
 
     # User input
-    question = st.text_input("Enter your question:")
+    user_question = st.text_input("Enter your question:")
 
     if st.button("Ask"):
         st.session_state.conversation_id = str(uuid.uuid4())
-        log(f"User asked: '{question}'")
+        log(f"User asked: '{user_question}'")
         with st.spinner("Processing..."):
             start_time = time.time()
 
-            context = get_context(question)
+            context = get_context(user_question)
             mistral_ans = generate_answer(question=context, context=context)
-            mistral_eval = evaluate_answer(question=question, answer=mistral_ans)
+            mistral_eval = evaluate_answer(question=user_question, answer=mistral_ans)
 
             answer_data = {}
             answer_data["answer"] = mistral_ans
-            answer_data["model_used"] = 0
+            answer_data["model_used"] = "mistral-small-2409"
             answer_data["response_time"] = 0
-            answer_data["relevance"] = mistral_eval['Relevance']
-            answer_data["relevance_explanation"] = mistral_eval['Explanation']
+            answer_data["relevance"] = mistral_eval["Relevance"]
+            answer_data["relevance_explanation"] = mistral_eval["Explanation"]
             answer_data["prompt_tokens"] = 0
             answer_data["completion_tokens"] = 0
             answer_data["total_tokens"] = 0
@@ -63,7 +63,7 @@ def main():
             log("Saving conversation to database")
             save_conversation(
                 st.session_state.conversation_id,
-                user_input,
+                user_question,
                 answer_data,
             )
             log("Conversation saved successfully")
