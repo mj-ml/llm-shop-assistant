@@ -3,6 +3,7 @@ import time
 
 import streamlit as st
 
+from rag import get_context, generate_answer, evaluate_answer
 from db_ops import save_feedback, save_conversation
 
 
@@ -11,7 +12,7 @@ def log(message):
 
 
 def main():
-    st.title("Eshop LLM Assistant")
+    st.title("E-shop LLM Assistant")
 
     # Session state initialization
     if "conversation_id" not in st.session_state:
@@ -19,21 +20,24 @@ def main():
         log(f"New conversation started with ID: {st.session_state.conversation_id}")
 
     # User input
-    user_input = st.text_input("Enter your question:")
+    question = st.text_input("Enter your question:")
 
     if st.button("Ask"):
         st.session_state.conversation_id = str(uuid.uuid4())
-        log(f"User asked: '{user_input}'")
+        log(f"User asked: '{question}'")
         with st.spinner("Processing..."):
             start_time = time.time()
-            # answer_data = get_answer(user_input, course, model_choice, search_type)
+
+            context = get_context(question)
+            mistral_ans = generate_answer(question=context, context=context)
+            mistral_eval = evaluate_answer(question=question, answer=mistral_ans)
 
             answer_data = {}
-            answer_data["answer"] = user_input
+            answer_data["answer"] = mistral_ans
             answer_data["model_used"] = 0
             answer_data["response_time"] = 0
-            answer_data["relevance"] = "NONE"
-            answer_data["relevance_explanation"] = "NONE"
+            answer_data["relevance"] = mistral_eval['Relevance']
+            answer_data["relevance_explanation"] = mistral_eval['Explanation']
             answer_data["prompt_tokens"] = 0
             answer_data["completion_tokens"] = 0
             answer_data["total_tokens"] = 0

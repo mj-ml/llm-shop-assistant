@@ -1,7 +1,19 @@
+import hashlib
 import os
 from datetime import datetime
 
 import psycopg2
+from dotenv import load_dotenv
+from elasticsearch import Elasticsearch
+
+load_dotenv()
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer("multi-qa-distilbert-cos-v1")
+ELASTIC_URL = os.getenv("ELASTIC_URL", "http://localhost:9200")
+es_client = Elasticsearch(ELASTIC_URL)
+
+index_name = "faq"
 
 
 def get_db_connection():
@@ -17,7 +29,8 @@ def create_tables():
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
-            cur.execute("""
+            cur.execute(
+                """
                 CREATE TABLE if not exists conversations (
                     id TEXT PRIMARY KEY,
                     question TEXT NOT NULL,
@@ -35,15 +48,18 @@ def create_tables():
                     openai_cost FLOAT NOT NULL,
                     timestamp TIMESTAMP WITH TIME ZONE NOT NULL
                 )
-            """)
-            cur.execute("""
+            """
+            )
+            cur.execute(
+                """
                 CREATE TABLE if not exists feedback (
                     id SERIAL PRIMARY KEY,
                     conversation_id TEXT REFERENCES conversations(id),
                     feedback INTEGER NOT NULL,
                     timestamp TIMESTAMP WITH TIME ZONE NOT NULL
                 )
-            """)
+            """
+            )
         conn.commit()
     finally:
         conn.close()
@@ -95,9 +111,84 @@ def save_conversation(conversation_id, question, answer_data, timestamp=None):
                     answer_data["eval_completion_tokens"],
                     answer_data["eval_total_tokens"],
                     answer_data["openai_cost"],
-                    timestamp
+                    timestamp,
                 ),
             )
         conn.commit()
     finally:
         conn.close()
+
+
+def query_elasticsearch(search_term):
+    vector_search_term = model.encode(search_term)
+
+    query = {
+        "field": "text_vector",
+        "query_vector": vector_search_term,
+        "k": 5,
+        "num_candidates": 100,
+    }
+
+    res = es_client.search(
+        index=index_name,
+        knn=query,
+        source=["answer", "question", "doc_id"],
+    )
+    return res["hits"]["hits"]
+
+
+def init_elasticsearch():
+    index_settings = {
+        "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+        "mappings": {
+            "properties": {
+                "answer": {"type": "text"},
+                "question": {"type": "text"},
+                "doc_id": {"type": "text"},
+                "text_vector": {
+                    "type": "dense_vector",
+                    "dims": 768,
+                    "index": True,
+                    "similarity": "cosine",
+                },
+            }
+        },
+    }
+
+    index_name = "faq"
+    es_client.indices.delete(index=index_name, ignore_unavailable=True)
+    es_client.indices.create(index=index_name, body=index_settings)
+
+
+def generate_document_id(doc):
+    combined = f"{doc['question']}-{doc['answer'][:10]}"
+    hash_object = hashlib.md5(combined.encode())
+    hash_hex = hash_object.hexdigest()
+    document_id = hash_hex[:8]
+    return document_id
+
+
+def upload_knowledge_base():
+    init_elasticsearch()
+
+    questions_path = "data/questions.json"
+    import json
+
+    with open(questions_path, "r") as file:
+        questions = json.load(file)
+
+    documents = []
+
+    for question in questions["questions"]:
+        question["text_vector"] = model.encode(question["answer"]).tolist()
+        question["doc_id"] = generate_document_id(question)
+        documents.append(question)
+
+    for doc in documents:
+        try:
+            es_client.index(index=index_name, document=doc)
+        except Exception as e:
+            print(e)
+
+if __name__ == '__main__':
+    context = query_elasticsearch("Can I return?")
