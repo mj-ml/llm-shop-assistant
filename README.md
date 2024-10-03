@@ -6,6 +6,19 @@ LLM based e-shop assistant providing help about the shop policies. Ask our shop 
 
 ## How to run it?
 
+Run docker compose up in the main directory. 
+
+```
+docker compose up -d
+```
+
+To swich it off
+
+```
+docker compose down
+```
+
+
 ## Dataset
 
 I adapted
@@ -45,17 +58,24 @@ Results below.
 The chosen LLM is Mistral AI.
 https://mistral.ai/
 
+I included a token for the review. I will expire soon. Use responisibly :D 
+The token is stored in .env - if for any reasons it does not work. 
+
 ## User interface
 
-Streamlit
+Streamlit - click below to chat with the assistant. 
 
-Link here
+http://localhost:8501/
 
 ## Metrics
 
 Metrics are stored in Postgres and shown in grafana.
 
-Link here
+http://localhost:3000/
+
+## Notebooks 
+
+Notebooks 
 
 ## Evaluation Criteria
 
