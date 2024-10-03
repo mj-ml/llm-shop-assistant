@@ -1,14 +1,14 @@
 import json
+import os
 import time
 
 from mistralai import Mistral
 
 from db_ops import query_elasticsearch
-from mistral_key import key
-
-api_key = key
+from dotenv import load_dotenv
+load_dotenv()
+api_key = os.getenv("MISTRAL_KEY", "MISTRAL")
 model = "mistral-small-2409"
-
 
 def get_context(question):
     raw_context = query_elasticsearch(question)

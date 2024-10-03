@@ -31,10 +31,11 @@ def main():
             start_time = time.time()
 
             context = get_context(user_question)
-            log(context)
+            print(context)
             mistral_ans = generate_answer(
                 question=user_question, context=context
             )
+            print(mistral_ans)
             time.sleep(1)
             mistral_eval = evaluate_answer(
                 question=user_question, answer=mistral_ans
