@@ -74,8 +74,8 @@ Results below.
 
 The selected vector query is
 
-```json
-    query = {
+```
+query = {
   "field": "text_vector",
   "query_vector": vector_search_term,
   "k": 5,
