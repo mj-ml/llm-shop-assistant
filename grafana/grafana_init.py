@@ -133,7 +133,7 @@ def create_dashboard(api_key, datasource_uid):
         "Content-Type": "application/json",
     }
 
-    dashboard_file = "grafana_dash.json"
+    dashboard_file = "data/grafana_dash.json"
 
     try:
         with open(dashboard_file, "r") as f:
