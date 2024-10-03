@@ -17,7 +17,9 @@ def main():
     # Session state initialization
     if "conversation_id" not in st.session_state:
         st.session_state.conversation_id = str(uuid.uuid4())
-        log(f"New conversation started with ID: {st.session_state.conversation_id}")
+        log(
+            f"New conversation started with ID: {st.session_state.conversation_id}"
+        )
 
     # User input
     user_question = st.text_input("Enter your question:")
@@ -30,16 +32,22 @@ def main():
 
             context = get_context(user_question)
             log(context)
-            mistral_ans = generate_answer(question=user_question, context=context)
+            mistral_ans = generate_answer(
+                question=user_question, context=context
+            )
             time.sleep(1)
-            mistral_eval = evaluate_answer(question=user_question, answer=mistral_ans)
+            mistral_eval = evaluate_answer(
+                question=user_question, answer=mistral_ans
+            )
 
             answer_data = {}
             answer_data["answer"] = mistral_ans
             answer_data["model_used"] = "mistral-small-2409"
             answer_data["response_time"] = 0
             answer_data["relevance"] = mistral_eval["Relevance"]
-            answer_data["relevance_explanation"] = mistral_eval["Explanation"]
+            answer_data["relevance_explanation"] = mistral_eval[
+                "Explanation"
+            ]
             answer_data["prompt_tokens"] = 0
             answer_data["completion_tokens"] = 0
             answer_data["total_tokens"] = 0
@@ -49,17 +57,23 @@ def main():
             answer_data["openai_cost"] = 0
 
             end_time = time.time()
-            log(f"Answer received in {end_time - start_time:.2f} seconds")
+            log(
+                f"Answer received in {end_time - start_time:.2f} seconds"
+            )
             st.success("Completed!")
             st.write(answer_data["answer"])
 
             # Display monitoring information
-            st.write(f"Response time: {answer_data['response_time']:.2f} seconds")
+            st.write(
+                f"Response time: {answer_data['response_time']:.2f} seconds"
+            )
             st.write(f"Relevance: {answer_data['relevance']}")
             st.write(f"Model used: {answer_data['model_used']}")
             st.write(f"Total tokens: {answer_data['total_tokens']}")
             if answer_data["openai_cost"] > 0:
-                st.write(f"OpenAI cost: ${answer_data['openai_cost']:.4f}")
+                st.write(
+                    f"OpenAI cost: ${answer_data['openai_cost']:.4f}"
+                )
 
             # Save conversation to database
             log("Saving conversation to database")

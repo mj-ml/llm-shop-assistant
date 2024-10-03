@@ -80,7 +80,9 @@ def evaluate_answer(question, answer):
         """.strip()
     client = Mistral(api_key=api_key)
 
-    prompt_eval = prompt_template.format(question=question, answer=answer)
+    prompt_eval = prompt_template.format(
+        question=question, answer=answer
+    )
     chat_response_eval = client.chat.complete(
         model=model,
         messages=[
@@ -98,6 +100,12 @@ def evaluate_answer(question, answer):
 if __name__ == "__main__":
     question = "How much in shipping to France?"
     context = get_context(question)
-    mistral_ans = generate_answer(question=context, context=context)
+    mistral_ans = generate_answer(
+        question=question,
+        context=context,
+    )
     time.sleep(5)
-    mistral_eval = evaluate_answer(question=question, answer=mistral_ans)
+    mistral_eval = evaluate_answer(
+        question=question,
+        answer=mistral_ans,
+    )

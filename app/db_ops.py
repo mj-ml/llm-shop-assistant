@@ -81,7 +81,9 @@ def save_feedback(conversation_id, feedback, timestamp=None):
         conn.close()
 
 
-def save_conversation(conversation_id, question, answer_data, timestamp=None):
+def save_conversation(
+    conversation_id, question, answer_data, timestamp=None
+):
     if timestamp is None:
         timestamp = datetime.now()
 
@@ -155,7 +157,9 @@ def init_elasticsearch():
         },
     }
 
-    es_client.indices.delete(index=index_name, ignore_unavailable=True)
+    es_client.indices.delete(
+        index=index_name, ignore_unavailable=True
+    )
     es_client.indices.create(index=index_name, body=index_settings)
 
 
@@ -179,7 +183,9 @@ def upload_knowledge_base():
     documents = []
 
     for question in questions["questions"]:
-        question["text_vector"] = model.encode(question["answer"]).tolist()
+        question["text_vector"] = model.encode(
+            question["answer"]
+        ).tolist()
         question["doc_id"] = generate_document_id(question)
         documents.append(question)
 
@@ -189,5 +195,6 @@ def upload_knowledge_base():
         except Exception as e:
             print(e)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     context = query_elasticsearch("shipping price to Albania?")
