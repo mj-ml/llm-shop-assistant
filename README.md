@@ -91,6 +91,7 @@ The chosen LLM is Mistral AI.
 https://mistral.ai/
 
 I included a token for the review. I will expire soon. Use responsibly. 
+
 The token is stored in .env - if for any reasons it does not work.
 
 ## User interface
@@ -99,6 +100,8 @@ Streamlit - click below to chat with the assistant:
 
 http://localhost:8501/
 
+
+![img.png](img%2Fimg.png)
 ## Metrics
 
 Metrics are stored in Postgres and shown in grafana with (5 charts).
@@ -113,6 +116,8 @@ To see the dashboards:
 http://localhost:3000/
 
 user: admin, password: admin
+
+![img_1.png](img%2Fimg_1.png)
 
 ## Notebooks
 
