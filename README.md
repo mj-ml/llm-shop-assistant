@@ -45,7 +45,10 @@ by adding some additional questions.
 
 ## Ingestion
 
-The ingestion is automated, when starting the app. If you want to modify the questions/answers please refer to the file
+The ingestion is automated, when starting the app. 
+`app/app_init.py`
+
+If you want to modify the questions/answers please refer to the file
 `data/questions.json`
 
 Data is uploaded to elasticsearch in two formats:
