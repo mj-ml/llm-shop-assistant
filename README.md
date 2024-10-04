@@ -92,7 +92,7 @@ https://mistral.ai/
 
 I included a token for the review. I will expire soon. Use responsibly. 
 
-The token is stored in .env - if for any reasons it does not work.
+The token is stored in .env - if you want to change it. 
 
 ## User interface
 
