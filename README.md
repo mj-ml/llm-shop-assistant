@@ -1,5 +1,5 @@
 # llm-shop-assistant
-
+![assistant.jpg](img%2Fassistant.jpg)
 # Project description
 
 LLM based e-shop assistant providing help about the shop policies. Ask our shop assistant any question.
