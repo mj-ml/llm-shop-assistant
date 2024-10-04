@@ -1,10 +1,10 @@
-import uuid
 import time
+import uuid
 
 import streamlit as st
 
-from rag import get_context, generate_answer, evaluate_answer
 from db_ops import save_feedback, save_conversation
+from rag import get_context, generate_answer, evaluate_answer
 
 
 def log(message):
@@ -110,4 +110,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()

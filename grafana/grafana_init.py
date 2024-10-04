@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-GRAFANA_URL = "http://localhost:3000"
+GRAFANA_URL = "http://grafana:3000"
 
 GRAFANA_USER = os.getenv("GRAFANA_ADMIN_USER")
 GRAFANA_PASSWORD = os.getenv("GRAFANA_ADMIN_PASSWORD")
@@ -133,7 +133,7 @@ def create_dashboard(api_key, datasource_uid):
         "Content-Type": "application/json",
     }
 
-    dashboard_file = "data/grafana_dash.json"
+    dashboard_file = "grafana_dash.json"
 
     try:
         with open(dashboard_file, "r") as f:

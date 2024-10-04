@@ -139,8 +139,8 @@ Notebooks are stored in the directory notebooks
   * ~~1 point: Command line interface, a script, or a Jupyter notebook~~
   * 2 points: UI (e.g., Streamlit), web application (e.g., Django), or an API (e.g., built with FastAPI)
 * Ingestion pipeline
-  * 0 points: No ingestion
-  * 1 point: Semi-automated ingestion of the dataset into the knowledge base, e.g., with a Jupyter notebook
+  * ~~0 points: No ingestion~~
+  * ~~1 point: Semi-automated ingestion of the dataset into the knowledge base, e.g., with a Jupyter notebook~~
   * 2 points: Automated ingestion with a Python script or a special tool (e.g., Mage, dlt, Airflow, Prefect)
 * Monitoring
   * ~~0 points: No monitoring~~

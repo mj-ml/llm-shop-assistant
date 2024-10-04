@@ -29,13 +29,12 @@ def generate_answer(question, context):
     client = Mistral(api_key=api_key)
 
     prompt = f"""
-
     You are a shop assistant. Reply briefly. Give a simple explanation. 
     Given the context information and not prior knowledge, answer the query. 
     Query: 
-   ```
+    ```
     {question}
-   ```
+    ```
     Context:     
     ```
     {context}

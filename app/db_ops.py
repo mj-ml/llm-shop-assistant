@@ -25,7 +25,7 @@ def get_db_connection():
     )
 
 
-def create_tables():
+def create_postgres_tables():
     conn = get_db_connection()
     try:
         with conn.cursor() as cur:
@@ -172,9 +172,7 @@ def generate_document_id(doc):
 
 
 def upload_knowledge_base():
-    init_elasticsearch()
-
-    questions_path = "data/questions.json"
+    questions_path = "questions.json"
     import json
 
     with open(questions_path, "r") as file:
