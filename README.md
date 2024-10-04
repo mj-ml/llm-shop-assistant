@@ -31,6 +31,8 @@ To switch it off
 docker compose down
 ```
 
+The DBs are initialised in init.dockerfile which is run in the main docker compose.
+Each time you 
 
 
 ## Dataset
@@ -93,7 +95,7 @@ The token is stored in .env - if for any reasons it does not work.
 
 ## User interface
 
-Streamlit - click below to chat with the assistant.
+Streamlit - click below to chat with the assistant: 
 
 http://localhost:8501/
 
@@ -104,6 +106,9 @@ Metrics are stored in Postgres and shown in grafana with (5 charts).
 After each run of the model there is a LLM model as a judge which evaluates the correctness of the answer (stored in the
 db and visible in the dashboards)
 
+Dashboards are created in the init.dockerfile. 
+
+To see the dashboards: 
 
 http://localhost:3000/
 
