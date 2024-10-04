@@ -107,6 +107,8 @@ db and visible in the dashboards)
 
 http://localhost:3000/
 
+user: admin, password: admin
+
 ## Notebooks
 
 Notebooks are stored in the directory notebooks

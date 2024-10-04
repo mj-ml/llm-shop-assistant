@@ -55,7 +55,7 @@ def generate_answer(question, context):
     )
     ans = chat_response.choices[0].message.content
     print(ans)
-    return ans
+    return ans, chat_response
 
 
 def evaluate_answer(question, answer):
@@ -94,18 +94,18 @@ def evaluate_answer(question, answer):
     )
     eval_ans = chat_response_eval.choices[0].message.content
     print(eval_ans)
-    return json.loads(eval_ans)
+    return json.loads(eval_ans), chat_response_eval
 
 
 if __name__ == "__main__":
     question = "How much in shipping to France?"
     context = get_context(question)
-    mistral_ans = generate_answer(
+    mistral_ans, raw_ans = generate_answer(
         question=question,
         context=context,
     )
     time.sleep(5)
-    mistral_eval = evaluate_answer(
+    mistral_eval, raw_eval = evaluate_answer(
         question=question,
         answer=mistral_ans,
     )

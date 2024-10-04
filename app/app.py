@@ -32,29 +32,39 @@ def main():
 
             context = get_context(user_question)
             print(context)
-            mistral_ans = generate_answer(
+            mistral_ans, raw_ans = generate_answer(
                 question=user_question, context=context
             )
             print(mistral_ans)
-            time.sleep(1)
-            mistral_eval = evaluate_answer(
+            model_execution_time = time.time() - start_time
+
+            time.sleep(2)
+            mistral_eval, raw_eval = evaluate_answer(
                 question=user_question, answer=mistral_ans
             )
 
             answer_data = {}
             answer_data["answer"] = mistral_ans
             answer_data["model_used"] = "mistral-small-2409"
-            answer_data["response_time"] = 0
+            answer_data["response_time"] = model_execution_time
             answer_data["relevance"] = mistral_eval["Relevance"]
             answer_data["relevance_explanation"] = mistral_eval[
                 "Explanation"
             ]
-            answer_data["prompt_tokens"] = 0
-            answer_data["completion_tokens"] = 0
-            answer_data["total_tokens"] = 0
-            answer_data["eval_prompt_tokens"] = 0
-            answer_data["eval_completion_tokens"] = 0
-            answer_data["eval_total_tokens"] = 0
+            answer_data["prompt_tokens"] = raw_ans.usage.prompt_tokens
+            answer_data[
+                "completion_tokens"
+            ] = raw_ans.usage.completion_tokens
+            answer_data["total_tokens"] = raw_ans.usage.total_tokens
+            answer_data[
+                "eval_prompt_tokens"
+            ] = raw_eval.usage.prompt_tokens
+            answer_data[
+                "eval_completion_tokens"
+            ] = raw_eval.usage.completion_tokens
+            answer_data[
+                "eval_total_tokens"
+            ] = raw_eval.usage.total_tokens
             answer_data["openai_cost"] = 0
 
             end_time = time.time()
