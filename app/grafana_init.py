@@ -194,7 +194,7 @@ def create_dashboard(api_key, datasource_uid):
         return None
 
 
-def main():
+def grafana_init():
     api_key = create_api_key()
     if not api_key:
         print("API key creation failed")
@@ -209,4 +209,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    grafana_init()

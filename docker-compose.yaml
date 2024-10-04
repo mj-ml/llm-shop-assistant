@@ -44,6 +44,23 @@ services:
     depends_on:
       - elasticsearch
       - postgres
+      - init
+
+  init:
+    build:
+      context: .
+      dockerfile: init.dockerfile
+    container_name: init
+    environment:
+      - ELASTIC_URL=http://elasticsearch:${ELASTIC_PORT:-9200}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+    depends_on:
+      - elasticsearch
+      - postgres
 
   grafana:
     image: grafana/grafana:latest
