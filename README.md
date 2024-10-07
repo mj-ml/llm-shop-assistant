@@ -103,6 +103,8 @@ Streamlit - click below to chat with the assistant:
 
 http://localhost:8501/
 
+Don't forget to submit your feedback after each answer! 
+
 
 ![img.png](img%2Fimg.png)
 ## Metrics
