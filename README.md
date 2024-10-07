@@ -32,7 +32,7 @@ docker compose down
 ```
 
 The DBs are initialised in init.dockerfile which is run in the main docker compose.
-Each time you 
+
 
 
 ## Dataset
@@ -107,6 +107,12 @@ http://localhost:8501/
 ![img.png](img%2Fimg.png)
 ## Metrics
 
+The RAG was evaluated - the figure below shows the cosine similarity of the original answer and the LLM generated answer. 
+
+The rag is also constantly evaluated using LLM-as-judge - after each question asked by the user.  
+
+![img_3.png](img%2Fimg_3.png)
+
 Metrics are stored in Postgres and shown in grafana with (5 charts).
 
 After each run of the model there is a LLM model as a judge which evaluates the correctness of the answer (stored in the
@@ -128,6 +134,7 @@ Notebooks are stored in the directory notebooks
 
 - inside you can find the evaluations
 - basic examples
+- RAG evaluation 
 
 ## Evaluation Criteria
 
@@ -144,9 +151,9 @@ Notebooks are stored in the directory notebooks
   * ~~1 point: Only one retrieval approach is evaluated~~
   * 2 points: Multiple retrieval approaches are evaluated, and the best one is used
 * RAG evaluation
-  * 0 points: No evaluation of RAG is provided
+  * ~~0 points: No evaluation of RAG is provided~~
   * 1 point: Only one RAG approach (e.g., one prompt) is evaluated
-  * 2 points: Multiple RAG approaches are evaluated, and the best one is used
+  * ~~2 points: Multiple RAG approaches are evaluated, and the best one is used~~
 * Interface
   * ~~0 points: No way to interact with the application at all~~
   * ~~1 point: Command line interface, a script, or a Jupyter notebook~~
